@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>googlemaps – Google Maps and Local Search APIs in Python &mdash; googlemaps v1.0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.2',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="googlemaps v1.0.2 documentation" href="" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="">googlemaps v1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="googlemaps-google-maps-and-local-search-apis-in-python">
+<h1><tt class="xref docutils literal"><span class="pre">googlemaps</span></tt> &#8211; Google Maps and Local Search APIs in Python<a class="headerlink" href="#googlemaps-google-maps-and-local-search-apis-in-python" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="googlemaps.GoogleMaps">
+<em class="property">class </em><tt class="descname">GoogleMaps</tt><a class="headerlink" href="#googlemaps.GoogleMaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>An easy-to-use Python wrapper for the Google Maps and Local Search APIs.</p>
+<p><strong>Geocoding</strong>: convert a postal address to latitude and longitude</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">from</span> <span class="nn">googlemaps</span> <span class="k">import</span> <span class="n">GoogleMaps</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gmaps</span> <span class="o">=</span> <span class="n">GoogleMaps</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">address</span> <span class="o">=</span> <span class="s">&#39;Constitution Ave NW &amp; 10th St NW, Washington, DC&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">address_to_latlng</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span>
+<span class="go">38.8921021 -77.0260358</span>
+</pre></div>
+</div>
+<p><strong>Reverse Geocoding</strong>: find the nearest address to (lat, lng)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">destination</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">latlng_to_address</span><span class="p">(</span><span class="mf">38.887563</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.019929</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">destination</span>
+<span class="go">Independence and 6th SW, Washington, DC 20024, USA</span>
+</pre></div>
+</div>
+<p><strong>Local Search</strong>: find places matching a query near a given location</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">local_search</span><span class="p">(</span><span class="s">&#39;cafe near &#39;</span> <span class="o">+</span> <span class="n">destination</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">local</span><span class="p">[</span><span class="s">&#39;responseData&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">][</span><span class="s">&#39;titleNoFormatting&#39;</span><span class="p">]</span>
+<span class="go">Vie De France Bakery &amp; Cafe</span>
+</pre></div>
+</div>
+<p><strong>Directions</strong>: turn-by-turn directions, distance, time, etc. from 
+point A to point B</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">directions</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">directions</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Distance&#39;</span><span class="p">][</span><span class="s">&#39;meters&#39;</span><span class="p">]</span>
+<span class="go">1029</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">directions</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Duration&#39;</span><span class="p">][</span><span class="s">&#39;seconds&#39;</span><span class="p">]</span>
+<span class="go">106</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">directions</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Routes&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">][</span><span class="s">&#39;Steps&#39;</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">step</span><span class="p">[</span><span class="s">&#39;descriptionHtml&#39;</span><span class="p">]</span>
+<span class="go">Head &lt;b&gt;east&lt;/b&gt; on &lt;b&gt;Constitution Ave NW&lt;/b&gt; toward &lt;b&gt;9th St NW&lt;/b&gt;</span>
+<span class="go">Take the 2nd &lt;b&gt;right&lt;/b&gt; onto &lt;b&gt;7th St NW&lt;/b&gt;</span>
+<span class="go">Turn &lt;b&gt;left&lt;/b&gt; at &lt;b&gt;Independence Ave SW&lt;/b&gt;</span>
+</pre></div>
+</div>
+<p>This software is in no way associated with or endorsed by Google Inc.
+Use of the Google Maps API is governed by its Terms of Service:
+<a class="reference external" href="http://code.google.com/apis/maps/terms.html">http://code.google.com/apis/maps/terms.html</a>.  Note in particular that
+you will need your own Google Maps API key to use this service,
+and that there are rate limits to the number of requests you can
+make.</p>
+</dd></dl>
+
+<div class="section" id="googlemaps-methods">
+<h2><tt class="xref docutils literal"><span class="pre">GoogleMaps</span></tt> methods<a class="headerlink" href="#googlemaps-methods" title="Permalink to this headline">¶</a></h2>
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.__init__">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">__init__</tt><big>(</big><em>api_key=''</em>, <em>referrer_url=''</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a title="googlemaps.GoogleMaps" class="reference internal" href="#googlemaps.GoogleMaps"><tt class="xref docutils literal"><span class="pre">GoogleMaps</span></tt></a> object using the given <cite>api_key</cite> and 
+<cite>referrer_url</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>api_key</em> (string) &#8211; Google Maps API key</li>
+<li><em>referrer_url</em> (string) &#8211; URL of the website using or displaying information
+from this module.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Google requires API users to register for an API key before using the
+geocoding service; this can be done at
+<a class="reference external" href="http://code.google.com/apis/maps/signup.html">http://code.google.com/apis/maps/signup.html</a>.
+If you are not geocoding, you do not need an API key.</p>
+<p>Use of Google Local Search requires a referrer URL, generally the website
+where the retrieved information will be used.  If you are not using
+Local Search, you do not need a referrer URL.</p>
+</dd></dl>
+
+<div class="section" id="geocoding">
+<h3>Geocoding<a class="headerlink" href="#geocoding" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.address_to_latlng">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">address_to_latlng</tt><big>(</big><em>address</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.address_to_latlng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a string <cite>address</cite>, return a <cite>(latitude, longitude)</cite> pair.</p>
+<p>This is a simplified wrapper for <a title="googlemaps.GoogleMaps.geocode" class="reference internal" href="#googlemaps.GoogleMaps.geocode"><tt class="xref docutils literal"><span class="pre">geocode()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>address</em> (string) &#8211; The postal address to geocode.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><cite>(latitude, longitude)</cite> of <cite>address</cite>.</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">(float, float)</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">If the address could not be geocoded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.geocode">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">geocode</tt><big>(</big><em>query</em>, <em>sensor='false'</em>, <em>oe='utf8'</em>, <em>ll=''</em>, <em>spn=''</em>, <em>gl=''</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.geocode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a string address <cite>query</cite>, return a dictionary of information about
+that location, including its latitude and longitude.</p>
+<p>Interesting bits:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">gmaps</span> <span class="o">=</span> <span class="n">GoogleMaps</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">address</span> <span class="o">=</span> <span class="s">&#39;350 Fifth Avenue New York, NY&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">placemark</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;Placemark&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lng</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">placemark</span><span class="p">[</span><span class="s">&#39;Point&#39;</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">:</span><span class="mf">2</span><span class="p">]</span>    <span class="c"># Note these are backwards from usual</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span>
+<span class="go">40.6721118 -73.9838823</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">details</span> <span class="o">=</span> <span class="n">placemark</span><span class="p">[</span><span class="s">&#39;AddressDetails&#39;</span><span class="p">][</span><span class="s">&#39;Country&#39;</span><span class="p">][</span><span class="s">&#39;AdministrativeArea&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">street</span> <span class="o">=</span> <span class="n">details</span><span class="p">[</span><span class="s">&#39;Locality&#39;</span><span class="p">][</span><span class="s">&#39;Thoroughfare&#39;</span><span class="p">][</span><span class="s">&#39;ThoroughfareName&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">city</span> <span class="o">=</span> <span class="n">details</span><span class="p">[</span><span class="s">&#39;Locality&#39;</span><span class="p">][</span><span class="s">&#39;LocalityName&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">state</span> <span class="o">=</span> <span class="n">details</span><span class="p">[</span><span class="s">&#39;AdministrativeAreaName&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zipcode</span> <span class="o">=</span> <span class="n">details</span><span class="p">[</span><span class="s">&#39;Locality&#39;</span><span class="p">][</span><span class="s">&#39;PostalCode&#39;</span><span class="p">][</span><span class="s">&#39;PostalCodeNumber&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">street</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">zipcode</span><span class="p">))</span>
+<span class="go">350 5th Ave, Brooklyn, NY, 11215</span>
+</pre></div>
+</div>
+<p>More documentation on the format of the return value can be found at 
+Google&#8217;s <a class="reference external" href="http://code.google.com/apis/maps/documentation/geocoding/index.html#JSON">geocoder return value</a> reference.  (Note: Some places have 
+a <cite>&#8216;SubAdministrativeArea&#8217;</cite> and some don&#8217;t; sometimes a <cite>&#8216;Locality&#8217;</cite> 
+will have a <cite>&#8216;DependentLocality&#8217;</cite> and some don&#8217;t.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>query</em> (string) &#8211; Address of location to be geocoded.</li>
+<li><em>sensor</em> (string) &#8211; <tt class="docutils literal"><span class="pre">'true'</span></tt> if the address is coming from, say, a GPS device.</li>
+<li><em>oe</em> (string) &#8211; Output Encoding; best left at <tt class="docutils literal"><span class="pre">'utf8'</span></tt>.</li>
+<li><em>ll</em> (string) &#8211; <cite>lat,lng</cite> of the viewport center as comma-separated string;
+must be used with <cite>spn</cite> for Viewport Biasing</li>
+<li><em>spn</em> (string) &#8211; The &#8220;span&#8221; of the viewport; must be used with <cite>ll</cite>.</li>
+<li><em>gl</em> (string) &#8211; Two-character <a class="reference external" href="http://en.wikipedia.org/wiki/Country_code_top-level_domain">ccTLD</a> for country code biasing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://code.google.com/apis/maps/documentation/geocoding/index.html#JSON">geocoder return value</a> dictionary</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">if there is something wrong with the query.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>More information on the types and meaning of the parameters can be found
+at the <a class="reference external" href="http://code.google.com/apis/maps/documentation/geocoding/index.html">Google HTTP Geocoder</a> site.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="reverse-geocoding">
+<h3>Reverse Geocoding<a class="headerlink" href="#reverse-geocoding" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.latlng_to_address">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">latlng_to_address</tt><big>(</big><em>lat</em>, <em>lng</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.latlng_to_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a latitude <cite>lat</cite> and longitude <cite>lng</cite>, return the closest address.</p>
+<p>This is a simplified wrapper for <a title="googlemaps.GoogleMaps.reverse_geocode" class="reference internal" href="#googlemaps.GoogleMaps.reverse_geocode"><tt class="xref docutils literal"><span class="pre">reverse_geocode()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>lat</em> (float) &#8211; latitude</li>
+<li><em>lng</em> (float) &#8211; longitude</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Closest postal address to <cite>(lat, lng)</cite>, if any.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">string</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">if the coordinates could not be converted
+to an address.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.reverse_geocode">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">reverse_geocode</tt><big>(</big><em>lat</em>, <em>lng</em>, <em>sensor='false'</em>, <em>oe='utf8'</em>, <em>ll=''</em>, <em>spn=''</em>, <em>gl=''</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.reverse_geocode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a (latitude, longitude) pair to an address.</p>
+<p>Interesting bits:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">gmaps</span> <span class="o">=</span> <span class="n">GoogleMaps</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reverse</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">reverse_geocode</span><span class="p">(</span><span class="mf">38.887563</span><span class="p">,</span> <span class="o">-</span><span class="mf">77.019929</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">address</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">[</span><span class="s">&#39;Placemark&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">][</span><span class="s">&#39;address&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">address</span>
+<span class="go">Independence and 6th SW, Washington, DC 20024, USA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">[</span><span class="s">&#39;Placemark&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">][</span><span class="s">&#39;AddressDetails&#39;</span><span class="p">][</span><span class="s">&#39;Accuracy&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">accuracy</span>
+<span class="go">9</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>lat</em> (float) &#8211; latitude</li>
+<li><em>lng</em> (float) &#8211; longitude</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://code.google.com/apis/maps/documentation/geocoding/index.html#ReverseGeocoding">Reverse geocoder return value</a> dictionary giving closest 
+address(es) to <cite>(lat, lng)</cite></p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">If the coordinates could not be reverse geocoded.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Keyword arguments and return value are identical to those of <a title="googlemaps.GoogleMaps.geocode" class="reference internal" href="#googlemaps.GoogleMaps.geocode"><tt class="xref docutils literal"><span class="pre">geocode()</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="directions">
+<h3>Directions<a class="headerlink" href="#directions" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.directions">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">directions</tt><big>(</big><em>origin</em>, <em>destination</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get driving directions from <cite>origin</cite> to <cite>destination</cite>.</p>
+<p>Interesting bits:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">gmaps</span> <span class="o">=</span> <span class="n">GoogleMaps</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="s">&#39;Constitution Ave NW &amp; 10th St NW, Washington, DC&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span>   <span class="o">=</span> <span class="s">&#39;Independence and 6th SW, Washington, DC 20024, USA&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dirs</span>  <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span>  <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Duration&#39;</span><span class="p">][</span><span class="s">&#39;seconds&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span>  <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Distance&#39;</span><span class="p">][</span><span class="s">&#39;meters&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">route</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="s">&#39;Directions&#39;</span><span class="p">][</span><span class="s">&#39;Routes&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">route</span><span class="p">[</span><span class="s">&#39;Steps&#39;</span><span class="p">]:</span>
+<span class="gp">... </span>   <span class="k">print</span> <span class="n">step</span><span class="p">[</span><span class="s">&#39;Point&#39;</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">][</span><span class="mf">1</span><span class="p">],</span> <span class="n">step</span><span class="p">[</span><span class="s">&#39;Point&#39;</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span> 
+<span class="gp">... </span>   <span class="k">print</span> <span class="n">step</span><span class="p">[</span><span class="s">&#39;descriptionHtml&#39;</span><span class="p">]</span>
+<span class="go">38.8921 -77.02604</span>
+<span class="go">Head &lt;b&gt;east&lt;/b&gt; on &lt;b&gt;Constitution Ave NW&lt;/b&gt; toward &lt;b&gt;9th St NW&lt;/b&gt;</span>
+<span class="go">38.89208 -77.02191</span>
+<span class="go">Take the 2nd &lt;b&gt;right&lt;/b&gt; onto &lt;b&gt;7th St NW&lt;/b&gt;</span>
+<span class="go">38.88757 -77.02191</span>
+<span class="go">Turn &lt;b&gt;left&lt;/b&gt; at &lt;b&gt;Independence Ave SW&lt;/b&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>origin</em> (string) &#8211; Starting address</li>
+<li><em>destination</em> (string) &#8211; Ending address</li>
+<li><em>kwargs</em> &#8211; You can pass additional URL parameters as keyword arguments, 
+but this functionality is not documented.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Dictionary containing driving directions.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">If Google Maps was unable to find directions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="local-search">
+<h3>Local Search<a class="headerlink" href="#local-search" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="googlemaps.GoogleMaps.local_search">
+<tt class="descclassname">GoogleMaps.</tt><tt class="descname">local_search</tt><big>(</big><em>query</em>, <em>numresults=8</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#googlemaps.GoogleMaps.local_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches Google Local for the string <cite>query</cite> and returns a 
+dictionary of the results.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">gmaps</span> <span class="o">=</span> <span class="n">GoogleMaps</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">gmaps</span><span class="o">.</span><span class="n">local_search</span><span class="p">(</span><span class="s">&#39;sushi san francisco, ca&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s">&#39;responseData&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;titleNoFormatting&#39;</span><span class="p">]</span>
+<span class="go">Sushi Groove</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;streetAddress&#39;</span><span class="p">]</span>
+<span class="go">1916 Hyde St</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;phoneNumbers&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">][</span><span class="s">&#39;number&#39;</span><span class="p">]</span>
+<span class="go">(415) 440-1905</span>
+</pre></div>
+</div>
+<p>For more information on the available data, see Google&#8217;s documentation on 
+<a class="reference external" href="http://code.google.com/apis/ajaxsearch/documentation/#fonje">AJAX result structure</a> and <a class="reference external" href="http://code.google.com/apis/ajaxsearch/documentation/reference.html#_class_GlocalResult">local result properties</a>.</p>
+<p>The return value of this method is slightly different than that
+documented by Google; it attempts to stuff as many results as
+possible, from several queries (up to <cite>numresults</cite>), into the 
+<tt class="docutils literal"><span class="pre">['responseData']['results']</span></tt> array.  As a result, fields of
+the results referencing this array (such as <tt class="docutils literal"><span class="pre">'cursor'</span></tt>, 
+<tt class="docutils literal"><span class="pre">'currentPageIndex'</span></tt>, <tt class="docutils literal"><span class="pre">'moreResultsUrl'</span></tt>) may not make
+complete sense.</p>
+<p>This method may return fewer results than you ask for; Google Local 
+returns a maximum of <tt class="xref docutils literal"><span class="pre">GoogleMaps.MAX_LOCAL_RESULTS</span></tt> results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>query</em> (string) &#8211; String containing a search and a location, such as 
+<tt class="docutils literal"><span class="pre">'Sushi</span> <span class="pre">San</span> <span class="pre">Francisco,</span> <span class="pre">CA'</span></tt>.</li>
+<li><em>numresults</em> (int) &#8211; Number of results to return, up to a maximum of <tt class="xref docutils literal"><span class="pre">MAX_LOCAL_RESULTS</span></tt>.</li>
+<li><em>kwargs</em> &#8211; You can pass additional <a class="reference external" href="http://code.google.com/apis/ajaxsearch/documentation/reference.html#_intro_fonje">AJAX search arguments</a> and they 
+will be tacked on to the query.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A Google <a class="reference external" href="http://code.google.com/apis/ajaxsearch/documentation/#fonje">AJAX result structure</a>.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dict</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises GoogleMapsError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">If the query was malformed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>It&#8217;s as easy as:</p>
+<div class="highlight-python"><pre>sudo easy_install googlemaps</pre>
+</div>
+<p>For Python versions prior to 2.6, you may also need the <a class="reference external" href="http://pypi.python.org/pypi/simplejson/">simplejson</a> module.</p>
+<p>Not got root?  <tt class="xref docutils literal"><span class="pre">googlemaps</span></tt> plays nice with <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a>.</p>
+<p>You can also download the source from <a class="reference external" href="http://sourceforge.net/projects/py-googlemaps">sourceforge.net</a>;  <tt class="docutils literal"><span class="pre">googlemaps.py</span></tt>
+packs all this delicious functionality into a single, self-contained module
+that can be used as a script for command-line geocoding.</p>
+<p><a class="reference external" href="http://pypi.python.org/pypi/setuptools">easy_install</a> is available from <a class="reference external" href="http://pypi.python.org/">PyPI</a> if you don&#8217;t have it already.</p>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<p>You will need your own <a class="reference external" href="http://code.google.com/apis/maps/signup.html">Google Maps API key</a> to use the geocoding functions
+of this module.  There are <a class="reference external" href="http://code.google.com/apis/maps/faq.html#geocoder_limit">rate limits</a> to the number of requests per day
+from a single IP address.  If you make too many requests, or you use an
+invalid API key, or something else is wrong with your request,
+a <tt class="xref docutils literal"><span class="pre">GoogleMapsError</span></tt> will be raised containing a
+<a class="reference external" href="http://code.google.com/apis/maps/documentation/geocoding/#StatusCodes">status code</a>
+and brief description of the error; more information can be found at the linked
+reference.</p>
+<p>All of the data returned by this module is in <a class="reference external" href="http://www.json.org/">JSON</a>-compatible
+format, making it easy to combine with other web services.</p>
+</div>
+<div class="section" id="information">
+<h2>Information<a class="headerlink" href="#information" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Author:</th><td class="field-body">John Kleint</td>
+</tr>
+<tr class="field"><th class="field-name">Version:</th><td class="field-body">1.0.2</td>
+</tr>
+<tr class="field"><th class="field-name">License:</th><td class="field-body">Lesser Affero General Public License v3</td>
+</tr>
+<tr class="field"><th class="field-name">Source:</th><td class="field-body"><a class="reference external" href="http://sourceforge.net/projects/py-googlemaps">http://sourceforge.net/projects/py-googlemaps</a></td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Python Versions:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">2.3 - 2.6+</td>
+</tr>
+</tbody>
+</table>
+<p><em>This software comes with no warranty and is in no way associated with Google
+Inc. or the Google Maps™ mapping service.  Google does not approve or
+endorse this software.  GOOGLE is a trademark of Google Inc.</em></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href=""><tt class="docutils literal"><span class="pre">googlemaps</span></tt> &#8211; Google Maps and Local Search APIs in Python</a><ul>
+<li><a class="reference external" href="#googlemaps-methods"><tt class="docutils literal"><span class="pre">GoogleMaps</span></tt> methods</a><ul>
+<li><a class="reference external" href="#geocoding">Geocoding</a></li>
+<li><a class="reference external" href="#reverse-geocoding">Reverse Geocoding</a></li>
+<li><a class="reference external" href="#directions">Directions</a></li>
+<li><a class="reference external" href="#local-search">Local Search</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#notes">Notes</a></li>
+<li><a class="reference external" href="#information">Information</a></li>
+</ul>
+</li>
+</ul>
+
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul> 
+
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+
+<hr width="90%" />
+
+<p style="text-align: center">
+<a href="http://www.python.org/">
+    <img src="http://www.python.org/community/logos/python-powered-w-100x40.png" width="100" height="40"
+         alt="Python Powered" />
+</a>
+</p>
+
+<p style="text-align: center">
+<a href="http://sourceforge.net/projects/py-googlemaps">
+    <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=279370&amp;type=12" width="120" height="30" 
+         alt="Get googlemaps at SourceForge.net. Fast, secure and Free Open Source software downloads" />
+</a>
+</p>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="">googlemaps v1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, John Kleint.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>
