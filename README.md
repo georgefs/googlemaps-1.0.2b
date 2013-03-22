@@ -30,14 +30,9 @@ later and available for download as simplejson for earlier versions.
 
 Installation
 ------------
-You can install this package with easy_install using:
 
-    easy_install googlemaps
-    
-Or if you have already downloaded the .tar.gz archive:
-
-    tar xzvf googlemaps-1.0.2.tar.gz
-    cd googlemaps-1.0.2
+    git clone https://github.com/georgefs/googlemaps-1.0.2b.git
+    cd googlemaps-1.0.2b
     python setup.py install
 
 
